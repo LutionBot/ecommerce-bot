@@ -9,7 +9,7 @@ function initBot() {
       console.log('Respuesta: ', data);
       initCompany(data);
       $(".chat-window").removeClass("dont-show");
-      $(".chat-box").append('<br><span class="chat-line">'+companyFirstGreeting()+'</span>');
+      insertBotMessage(companyFirstGreeting());
     },
     error: function(err) {
 
@@ -21,11 +21,55 @@ function initBot() {
 
 function chooseSearchType() {
   var val = $(".chat-input").val();
-  $(".chat-box").append('<br><span class="chat-line">'+val+'</span>');
-  $(".chat-input").val("");
+  insertUserMessage(val);
+  clearInput();
   var flow = initSearchFlow(val);
-  $(".chat-box").append('<br><span class="chat-line">'+flow.msg+'</span>');
+  insertBotMessage(flow.msg);
   if (flow.searchType != "query") {
-    $(".chat-send-button").attr("onclick",flow.searchType+"Search()");
+    changeSendButtonFlow("search('"+flow.searchType+"')");
   }
+}
+
+function search(searchType) {
+  var val = $(".chat-input").val();
+  if(val.split(" ").length == 1 && (val.toLowerCase().indexOf("categoria") != -1 || val.toLowerCase().indexOf("producto") != -1)) {
+    chooseSearchType();
+  } else {
+    insertUserMessage(val);
+    clearInput();
+    $.ajax({
+      type: "POST",
+      url: 'https://www.lutionbot.com/api/text',
+      data: {
+        company: companyName(),
+        word: val.toLowerCase(),
+        type: searchType
+      },
+      success: function(data) {
+        console.log('Respuesta search category: ', data);
+        insertBotMessage(prettyAnswer(data));
+      },
+      error: function(err) {
+
+        console.log('ERROR EN SEARCH CATEGORY AJAX 1234', err);
+
+      }
+    });
+  }
+}
+
+function clearInput() {
+  $(".chat-input").val("");
+}
+
+function insertBotMessage(msg) {
+  $(".chat-box").append('<span class="chat-line bot-msg">'+msg+'</span>');
+}
+
+function insertUserMessage(msg) {
+  $(".chat-box").append('<span class="chat-line user-msg">'+msg+'</span>');
+}
+
+function changeSendButtonFlow(func) {
+  $(".chat-send-button").attr("onclick",func);
 }

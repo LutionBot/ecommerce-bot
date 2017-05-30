@@ -12,6 +12,21 @@ function companyFirstGreeting() {
   return self.company.greetingMsg;
 }
 
+function companyName() {
+  return self.company.company;
+}
+
+function prettyAnswer(data) {
+  console.log("type", typeof data)
+  if (typeof data == "string") {
+    return data;
+  } else if (Object.prototype.toString.call( data ) === '[object Array]' ) {
+    return data[0].reference;
+  } else {
+    return data.reference;
+  }
+}
+
 function initSearchFlow(value) {
   var startConfig;
   if (value.toLowerCase().indexOf("producto") != -1) {

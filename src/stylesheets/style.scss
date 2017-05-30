@@ -11,4 +11,20 @@
   position: fixed;
   right: 5px;
   bottom: 5px;
+
+  .chat-line {
+    display: block;
+  }
+  
+  .bot-msg {
+    background-color: darkcyan;
+    text-align: left;
+    margin: 5px 0px 0px 0px;
+  }
+
+  .user-msg {
+    background-color: palevioletred;
+    text-align: right;
+    margin: 5px 0px 0px 0px;;
+  }
 }
