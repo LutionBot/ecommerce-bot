@@ -3,15 +3,22 @@
 </head>
 <body>
   <div class="chat-container">
-    <a class="chat-title" onclick="initBot()">
-      <span>Comenzar</span>
-    </a>
+    <div class="chat-title" onclick="initBot()">
+      <a>
+        <span>Comenzar</span>
+      </a>
+    </div>
     <div class="chat-window dont-show">
-      <div class="chat-box"></div>
-      <input type="text" placeholder="Escriba un mensaje..." class="chat-input"></input>
-      <button class="chat-send-button" onclick="chooseSearchType()">
-        <span class="chat-send-button-text">Enviar</span>
-      </button>
+      <div class="chat-box">
+      </div>
+      <div class="chat-clearBoth"></div>
+
+      <div class="chat-input-box">
+        <input type="text" placeholder="Escriba un mensaje..." class="chat-input"></input>
+        <button class="chat-send-button" onclick="chooseSearchType()">
+          <span class="chat-send-button-text">Enviar</span>
+        </button>
+      </div>
     </div>
   </div>
 

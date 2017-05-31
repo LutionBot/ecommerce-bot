@@ -63,11 +63,11 @@ function clearInput() {
 }
 
 function insertBotMessage(msg) {
-  $(".chat-box").append('<span class="chat-line bot-msg">'+msg+'</span>');
+  $(".chat-box").append('<div class="chat-line bot-line"><span>'+msg+'</span></div>');
 }
 
 function insertUserMessage(msg) {
-  $(".chat-box").append('<span class="chat-line user-msg">'+msg+'</span>');
+  $(".chat-box").append('<div class="chat-line user-line"><span>'+msg+'</span></div>');
 }
 
 function changeSendButtonFlow(func) {

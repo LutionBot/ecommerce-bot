@@ -6,25 +6,48 @@
   border-radius: 3px;
   border: 1px solid cornflowerblue;
   width: 400;
-  text-align: center;
   background-color: white;
   position: fixed;
   right: 5px;
   bottom: 5px;
 
-  .chat-line {
-    display: block;
+  .chat-title {
+    text-align: center;
   }
-  
-  .bot-msg {
-    background-color: darkcyan;
-    text-align: left;
+
+  .chat-input-box {
+    text-align: center;
     margin: 5px 0px 0px 0px;
   }
 
-  .user-msg {
-    background-color: palevioletred;
-    text-align: right;
-    margin: 5px 0px 0px 0px;;
+  .chat-line {
+    display: block;
+    word-wrap: break-word;
+    max-width: 70%;
+
+    &.bot-line {
+      text-align: left;
+      float: left;
+      margin: 5px 0px 0px 2px;
+      background-color: darkcyan;
+      padding: 4px 6px 4px 6px;
+      border-radius: 5px;
+      clear: both;
+    }
+
+    &.user-line {
+      text-align: right;
+      float: right;
+      margin: 5px 2px 0px 0px;
+      background-color: palevioletred;
+      padding: 4px 6px 4px 6px;
+      border-radius: 5px;
+      clear: both;
+    }
   }
+}
+
+
+.chat-clearBoth {
+  clear: both;
 }
