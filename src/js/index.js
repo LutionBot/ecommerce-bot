@@ -91,10 +91,12 @@ function clearInput() {
 
 function insertBotMessage(msg) {
   $(".chat-box").append('<div class="chat-line bot-line"><span>'+msg+'</span></div>');
+  $('.chat-box').scrollTop($('.chat-box')[0].scrollHeight);
 }
 
 function insertUserMessage(msg) {
   $(".chat-box").append('<div class="chat-line user-line"><span>'+msg+'</span></div>');
+  $('.chat-box').scrollTop($('.chat-box')[0].scrollHeight);
 }
 
 function changeSendButtonFlow(func) {
