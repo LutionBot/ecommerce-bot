@@ -17,7 +17,12 @@ function companyName() {
 }
 
 function prettyAnswer(data, type) {
-  var msg = self.company.startConfig[type+"s"].searchMsg;
+  var map = {
+    "product" : "products",
+    "category" : "categories"
+  };
+  
+  var msg = self.company.startConfig[map[type]].searchMsg;
   if (typeof data == "string") {
     msg += " " + data;
   } else if (Object.prototype.toString.call( data ) === '[object Array]' ) {
