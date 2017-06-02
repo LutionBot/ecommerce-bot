@@ -16,15 +16,16 @@ function companyName() {
   return self.company.company;
 }
 
-function prettyAnswer(data) {
-  console.log("type", typeof data)
+function prettyAnswer(data, type) {
+  var msg = self.company.startConfig[type+"s"].searchMsg;
   if (typeof data == "string") {
-    return data;
+    msg += " " + data;
   } else if (Object.prototype.toString.call( data ) === '[object Array]' ) {
-    return data[0].reference;
+    msg += " " + data[0].reference;
   } else {
-    return data.reference;
+    msg += " " + data.reference;
   }
+  return msg;
 }
 
 function initSearchFlow(value) {

@@ -47,7 +47,7 @@ function search(searchType) {
       },
       success: function(data) {
         console.log('Respuesta search category: ', data);
-        insertBotMessage(prettyAnswer(data));
+        insertBotMessage(prettyAnswer(data, searchType));
       },
       error: function(err) {
 
