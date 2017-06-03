@@ -1,1 +1,1 @@
-# chatbot-client
+# ecommerce-bot
