@@ -2,13 +2,11 @@
 
 function initBot() {
   $(".chat-title").removeAttr("onclick");
-  console.log("First ajax!")
 
   $.ajax({
     type: "GET",
     url: 'https://www.lutionbot.com/api/company/tan%20intensa',
     success: function(data) {
-      console.log('Respuesta: ', data);
       $("#chat-input").keypress(function(e) {
           if(e.which == 13) {
             chooseSearchType();
@@ -21,9 +19,7 @@ function initBot() {
       insertBotMessage(companyFirstGreeting());
     },
     error: function(err) {
-
-      console.log('ERROR EN FIRST AJAX 1234', err);
-
+      insertBotMessage("Disculpe, estamos sufriendo algunas dificultades técnicas. Intente realizar su consulta más tarde.");
     }
   });
 }
@@ -39,7 +35,6 @@ function openChat() {
 }
 
 function chooseSearchType() {
-  console.log("chooseSearchType started")
   var val = $(".chat-input").val();
   insertUserMessage(val);
   clearInput();
@@ -57,7 +52,6 @@ function chooseSearchType() {
 }
 
 function search(searchType) {
-  console.log("search started")
   var val = $(".chat-input").val();
   if(val.split(" ").length == 1 && (val.toLowerCase().indexOf("categoria") != -1 || val.toLowerCase().indexOf("producto") != -1)) {
     chooseSearchType();
@@ -73,13 +67,10 @@ function search(searchType) {
         type: searchType
       },
       success: function(data) {
-        console.log('Respuesta search category: ', data);
         insertBotMessage(prettyAnswer(data, searchType));
       },
       error: function(err) {
-
-        console.log('ERROR EN SEARCH CATEGORY AJAX 1234', err);
-
+        insertBotMessage("Disculpe, estamos sufriendo algunas dificultades técnicas. Intente realizar su consulta más tarde.");
       }
     });
   }

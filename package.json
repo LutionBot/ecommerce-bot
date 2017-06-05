@@ -1,6 +1,6 @@
 {
   "name": "chatbot-client",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Cliente para Chatbot",
   "main": "index.js",
   "author": "",
