@@ -21,14 +21,18 @@ function prettyAnswer(data, type) {
     "product" : "products",
     "category" : "categories"
   };
-  
-  var msg = self.company.startConfig[map[type]].searchMsg;
+
+  var msg = "";
+  if (self.company.startConfig[map[type]]) {
+    msg = self.company.startConfig[map[type]].searchMsg + " ";
+  }
+
   if (typeof data == "string") {
-    msg += " " + data;
+    msg += data;
   } else if (Object.prototype.toString.call( data ) === '[object Array]' ) {
-    msg += " " + data[0].reference;
+    msg += data[0].reference;
   } else {
-    msg += " " + data.reference;
+    msg += data.reference;
   }
   return msg;
 }
