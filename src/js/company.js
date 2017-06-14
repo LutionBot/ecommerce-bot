@@ -28,11 +28,11 @@ function prettyAnswer(data, type) {
   }
 
   if (typeof data == "string") {
-    msg += data;
+    msg +=  data;
   } else if (Object.prototype.toString.call( data ) === '[object Array]' ) {
-    msg += data[0].reference;
+    msg += "<a href='" + data[0].reference + "'>" + data[0].reference + "</a>";
   } else {
-    msg += data.reference;
+    msg += "<a href='" + data.reference + "'>" + data.reference + "</a>";
   }
   return msg;
 }
