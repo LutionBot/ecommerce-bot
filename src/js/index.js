@@ -5,7 +5,7 @@ function initBot() {
 
   $.ajax({
     type: "GET",
-    url: 'https://www.lutionbot.com/api/company/tan%20intensa',
+    url: 'https://www.lutionbot.com/api/company/tan%20intensa?startChat=true',
     success: function(data) {
       $("#chat-input").keypress(function(e) {
           if(e.which == 13) {
