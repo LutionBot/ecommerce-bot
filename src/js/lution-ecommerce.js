@@ -69,7 +69,6 @@
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
          var data = JSON.parse(this.responseText);
-          console.log(data);
           document.getElementById('chat-input').onkeypress = function(e) {
             if (e.which == 13) {
 
@@ -115,7 +114,7 @@
     lution.insertBotMessage = function(msg) {
       lution.createDiv(false, document.getElementsByClassName('chat-box')[0], {className: "chat-line bot-line", span: {msg: msg}});
     };
-    
+
     lution.createDiv = function(innerText, parent, options) {
       var container = document.createElement("div");
 
