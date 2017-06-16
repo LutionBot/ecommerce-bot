@@ -19,7 +19,6 @@
     }
 
     lution.container = container;
-
     lution.params = params;
     // lution.hasJquery = typeof window.jQuery != 'undefined';
     lution.hasJquery = false;
@@ -78,9 +77,9 @@
           };
 
           lution.openChat();
-
-
-          // $(".chat-title").attr("onclick","closeChat()");
+          lution.companyData = data;
+          lution.insertBotMessage('Hola amigos');
+          lution.insertBotMessage('Chau amigos');
         }
       };
       xhttp.open("GET", "https://www.lutionbot.com/api/company/tan%20intensa?startChat=true", true);
@@ -92,16 +91,11 @@
       //         chooseSearchType();
       //       }
       //     });
-      //     initCompany(data);
-      //     openChat();
-      //     $(".chat-title").text("LutionBot");
-      //     insertBotMessage(companyFirstGreeting());
 
     };
 
     lution.openChat = function(e) {
       document.getElementsByClassName('chat-window')[0].classList.remove('dont-show');
-
       e = e || window.event;
       var target = e.target || e.srcElement;
       target.removeEventListener('click', lution.openChat, false);
@@ -118,6 +112,10 @@
     };
 
 
+    lution.insertBotMessage = function(msg) {
+      lution.createDiv(false, document.getElementsByClassName('chat-box')[0], {className: "chat-line bot-line", span: {msg: msg}});
+    };
+    
     lution.createDiv = function(innerText, parent, options) {
       var container = document.createElement("div");
 
@@ -138,6 +136,14 @@
       if (innerText != false) {
         var node = document.createTextNode(innerText);
         container.appendChild(node);
+      }
+
+      if (options.span && options.span.msg) {
+        var spanContainer = document.createElement("span"),
+          spanNode = document.createTextNode(options.span.msg);
+
+        spanContainer.appendChild(spanNode);
+        container.appendChild(spanContainer);
       }
 
       parent.appendChild(container);
