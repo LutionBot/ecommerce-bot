@@ -25,7 +25,7 @@ gulp.task('js:watch', function () {
 gulp.task('bundleJs', ['delete'], function () {
   var localFiles      = './src/js/*',
     jquery = './node_modules/jquery/dist/jquery.min.js';
-  return gulp.src([localFiles, jquery])
+  return gulp.src([jquery, localFiles])
           .pipe(concat('chatbot.min.js'))
           .pipe(uglify())
           .pipe(gulp.dest('statics/default/js'));
