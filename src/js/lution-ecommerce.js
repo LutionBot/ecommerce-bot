@@ -62,7 +62,6 @@
     };
 
     lution.initBot = function(e) {
-      console.log(1234);
       e = e || window.event;
       var target = e.target || e.srcElement;
       target.removeEventListener('click', lution.initBot, false);
@@ -77,9 +76,9 @@
 
             }
           };
-          document.getElementsByClassName('chat-window')[0].classList.remove('dont-show');
-          document.getElementsByClassName('chat-title')[0].addEventListener("click", lution.closeChat, false);
-          document.getElementsByClassName('chat-title')[0].innerHTML = "LutionBot";
+
+          lution.openChat();
+
 
           // $(".chat-title").attr("onclick","closeChat()");
         }
@@ -100,9 +99,23 @@
 
     };
 
-    lution.closeChat = function() {
+    lution.openChat = function(e) {
+      document.getElementsByClassName('chat-window')[0].classList.remove('dont-show');
 
-    }
+      e = e || window.event;
+      var target = e.target || e.srcElement;
+      target.removeEventListener('click', lution.openChat, false);
+      document.getElementsByClassName('chat-title')[0].addEventListener("click", lution.closeChat, false);
+      document.getElementsByClassName('chat-title')[0].innerHTML = "LutionBot";
+    };
+
+    lution.closeChat = function(e) {
+      document.getElementsByClassName('chat-window')[0].classList.add('dont-show');
+      e = e || window.event;
+      var target = e.target || e.srcElement;
+      target.removeEventListener('click', lution.closeChat, false);
+      document.getElementsByClassName('chat-title')[0].addEventListener("click", lution.openChat, false);
+    };
 
 
     lution.createDiv = function(innerText, parent, options) {
