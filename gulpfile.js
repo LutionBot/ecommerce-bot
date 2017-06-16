@@ -39,6 +39,6 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('./statics/default/stylesheets/'));
 });
 
-gulp.task('build', ['delete', 'bundleJs', 'sass']);
+gulp.task('build', ['delete', 'bundleJs', 'sass', 'js:watch']);
 
 gulp.task('default', ['build', 'sass']);
