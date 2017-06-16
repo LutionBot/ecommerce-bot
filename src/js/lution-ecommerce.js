@@ -71,14 +71,13 @@
          var data = JSON.parse(this.responseText);
           document.getElementById('chat-input').onkeypress = function(e) {
             if (e.which == 13) {
-
+              lution.chooseSearchType();
             }
           };
 
           lution.openChat();
           lution.companyData = data;
-          lution.insertBotMessage('Hola amigos');
-          lution.insertBotMessage('Chau amigos');
+          lution.insertBotMessage(lution.companyData.greetingMsg);
         }
       };
       xhttp.open("GET", "https://www.lutionbot.com/api/company/tan%20intensa?startChat=true", true);
@@ -91,6 +90,124 @@
       //       }
       //     });
 
+    };
+
+    lution.chooseSearchType = function() {
+      var val = document.getElementsByClassName('chat-input')[0].value;
+      lution.clearInput();
+      var flow = lution.initSearchFlow(val);
+      if  (flow.searchType == "query" || (flow.searchType != "query" && val.split(" ").length > 1)) {
+        console.log("1 - Voy directo a Search");
+        lution.search(flow.searchType, val);
+      } else {
+        lution.insertUserMessage(val);
+        console.log("1 - Voy directo a hacer bind y preguntar")
+        lution.insertBotMessage(flow.msg);
+        document.getElementById("chat-input").onkeypress = function(e) {
+          if (e.which == 13) {
+            lution.search(flow.searchType);
+          }
+        };
+      }
+    };
+
+    lution.search = function(searchType, searchTerm) {
+      console.log("2 - En los params hay:", searchType, searchTerm);
+      var val;
+      if (searchTerm) {
+        val = searchTerm;
+        searchType = "fb";
+      } else {
+        val = document.getElementsByClassName('chat-input')[0].value;
+      }
+
+      if(val.split(" ").length == 1 && (val.toLowerCase().indexOf("categoria") != -1 || val.toLowerCase().indexOf("producto") != -1)) {
+        console.log("3 - Vuelvo a inicio de flujo chooseSearchType");
+        lution.chooseSearchType();
+      } else {
+        console.log("3 - AJAX a api/text");
+        lution.insertUserMessage(val);
+        lution.clearInput();
+        var xhttp = new XMLHttpRequest(),
+          postData = JSON.stringify({
+            company: lution.companyData.company,
+            word: val.toLowerCase(),
+            type: searchType
+          });
+
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            lution.insertBotMessage(lution.answerPrettifier(this.responseText, searchType));
+          }
+        };
+        xhttp.open("POST", "https://www.lutionbot.com/api/text", true);
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(postData);
+
+        //   success: function(data) {
+        //     console.log("4 - Resultado ajax: ", data, searchType)
+        //     insertBotMessage(prettyAnswer(data, searchType));
+        //     $("#chat-input").unbind("keypress");
+        //     $("#chat-input").keypress(function(e) {
+        //       if(e.which == 13) {
+        //         chooseSearchType();
+        //       }
+        //     });
+        //   },
+
+      }
+    };
+
+    lution.answerPrettifier = function(data, type) {
+      var map = {
+        "product" : "products",
+        "category" : "categories"
+      };
+
+      var msg = "";
+      if (lution.companyData.startConfig[map[type]]) {
+        msg = lution.companyData.startConfig[map[type]].searchMsg + " ";
+      }
+
+      try {
+        data = JSON.parse(data);
+      } catch (e) {
+        data = data;
+      }
+
+      if (typeof data == "string") {
+        msg +=  data;
+      } else if (Object.prototype.toString.call( data ) === '[object Array]' ) {
+        msg += "<a href='" + data[0].reference + "'>" + data[0].reference + "</a>";
+      } else {
+        msg += "<a href='" + data.reference + "'>" + data.reference + "</a>";
+      }
+      return msg;
+    };
+
+    lution.initSearchFlow = function(value) {
+      if (value.toLowerCase().indexOf("producto") != -1) {
+        lution.startConfig = lution.companyData.startConfig.products;
+        lution.startConfig.type = "product";
+      } else if (value.toLowerCase().indexOf("categoria") != -1) {
+        lution.startConfig = lution.companyData.startConfig.categories;
+        lution.startConfig.type = "category";
+      } else {
+        lution.startConfig = {
+          msg: "Encontramos los siguientes resultados para lo que estas buscando: " + lution.companyData.searchUrl + value.toLowerCase().split(" ").join("+"),
+          type: "query"
+        }
+      }
+
+      return {
+        msg: lution.startConfig.msg,
+        searchType: lution.startConfig.type
+      };
+    };
+
+    lution.clearInput = function() {
+      document.getElementsByClassName('chat-input')[0].value = "";
     };
 
     lution.openChat = function(e) {
@@ -113,6 +230,12 @@
 
     lution.insertBotMessage = function(msg) {
       lution.createDiv(false, document.getElementsByClassName('chat-box')[0], {className: "chat-line bot-line", span: {msg: msg}});
+      //TODO: $('.chat-box').scrollTop($('.chat-box')[0].scrollHeight);
+    };
+
+    lution.insertUserMessage = function(msg) {
+      lution.createDiv(false, document.getElementsByClassName('chat-box')[0], {className: "chat-line user-line", span: {msg: msg}});
+      //TODO: $('.chat-box').scrollTop($('.chat-box')[0].scrollHeight);
     };
 
     lution.createDiv = function(innerText, parent, options) {
