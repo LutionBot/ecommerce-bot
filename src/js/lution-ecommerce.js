@@ -287,10 +287,17 @@
     lution.createInput('text', document.getElementsByClassName('chat-input-box')[0], {className: 'chat-input', id: 'chat-input'});
 
     // lution.container = lution.addClass(lution.container, 'prueba');
+    if (lution.params.theme == 'light') {
+      document.getElementsByClassName('chat-title')[0] = lution.addClass(document.getElementsByClassName('chat-title')[0], 'light');
+    }
+
+    if (lution.params.theme == 'dark') {
+      document.getElementsByClassName('chat-title')[0] = lution.addClass(document.getElementsByClassName('chat-title')[0], 'dark');
+    }
 
   };
 
   window.Lution = Lution;
 })();
 
-var lution = new Lution('.chat-container');
+var lution = new Lution('.chat-container', {theme: 'dark'});

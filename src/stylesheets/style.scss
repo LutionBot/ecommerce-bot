@@ -13,7 +13,13 @@
 
   .chat-title {
     text-align: center;
-    background-color: #d1e6f9;
+    &.light {
+      background-color: #d1e6f9;
+    }
+    &.dark {
+      background-color: #888;
+      color: #f0f8ff;
+    }
   }
 
   .chat-window {
