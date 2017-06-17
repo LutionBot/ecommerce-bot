@@ -305,4 +305,4 @@
   window.Lution = Lution;
 })();
 
-var lution = new Lution('.chat-container', {theme: 'dark', roundedBorders: false});
+var lution = new Lution('.chat-container', {theme: 'dark', roundedBorders: true});
