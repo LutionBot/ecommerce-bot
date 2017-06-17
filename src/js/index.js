@@ -113,3 +113,4 @@ function insertUserMessage(msg) {
 function changeSendButtonFlow(func) {
   $(".chat-send-button").attr("onclick",func);
 }
+

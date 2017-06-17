@@ -23,9 +23,9 @@ gulp.task('js:watch', function () {
 });
 
 gulp.task('bundleJs', ['delete'], function () {
-  var localFiles      = './src/js/*',
+  var localFiles      = './src/js/lution-ecommerce.js',
     jquery = './node_modules/jquery/dist/jquery.min.js';
-  return gulp.src([localFiles, jquery])
+  return gulp.src([localFiles])
           .pipe(concat('chatbot.min.js'))
           .pipe(uglify())
           .pipe(gulp.dest('statics/default/js'));
@@ -39,6 +39,6 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('./statics/default/stylesheets/'));
 });
 
-gulp.task('build', ['delete', 'bundleJs', 'sass']);
+gulp.task('build', ['delete', 'bundleJs', 'sass', 'js:watch']);
 
 gulp.task('default', ['build', 'sass']);
