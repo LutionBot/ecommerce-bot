@@ -83,13 +83,6 @@
       xhttp.open("GET", "https://www.lutionbot.com/api/company/tan%20intensa?startChat=true", true);
       xhttp.send();
 
-
-      //     $("#chat-input").keypress(function(e) {
-      //       if(e.which == 13) {
-      //         chooseSearchType();
-      //       }
-      //     });
-
     };
 
     lution.chooseSearchType = function() {
@@ -97,11 +90,9 @@
       lution.clearInput();
       var flow = lution.initSearchFlow(val);
       if  (flow.searchType == "query" || (flow.searchType != "query" && val.split(" ").length > 1)) {
-        console.log("1 - Voy directo a Search");
         lution.search(flow.searchType, val);
       } else {
         lution.insertUserMessage(val);
-        console.log("1 - Voy directo a hacer bind y preguntar")
         lution.insertBotMessage(flow.msg);
         document.getElementById("chat-input").onkeypress = function(e) {
           if (e.which == 13) {
@@ -112,7 +103,6 @@
     };
 
     lution.search = function(searchType, searchTerm) {
-      console.log("2 - En los params hay:", searchType, searchTerm);
       var val;
       if (searchTerm) {
         val = searchTerm;
@@ -122,10 +112,8 @@
       }
 
       if(val.split(" ").length == 1 && (val.toLowerCase().indexOf("categoria") != -1 || val.toLowerCase().indexOf("producto") != -1)) {
-        console.log("3 - Vuelvo a inicio de flujo chooseSearchType");
         lution.chooseSearchType();
       } else {
-        console.log("3 - AJAX a api/text");
         lution.insertUserMessage(val);
         lution.clearInput();
         var xhttp = new XMLHttpRequest(),
@@ -137,30 +125,22 @@
 
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
-            console.log(searchType, this.responseText);
             var map = {
               product: 'products',
               category: 'categories'
             };
 
             lution.insertBotMessage(lution.companyData.startConfig[map[searchType]].searchMsg + " ", lution.answerPrettifier(this.responseText));
+            document.getElementById("chat-input").onkeypress = function(e) {
+              if (e.which == 13) {
+                lution.chooseSearchType();
+              }
+            };
           }
         };
         xhttp.open("POST", "https://www.lutionbot.com/api/text", true);
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhttp.send(postData);
-
-        //   success: function(data) {
-        //     console.log("4 - Resultado ajax: ", data, searchType)
-        //     insertBotMessage(prettyAnswer(data, searchType));
-        //     $("#chat-input").unbind("keypress");
-        //     $("#chat-input").keypress(function(e) {
-        //       if(e.which == 13) {
-        //         chooseSearchType();
-        //       }
-        //     });
-        //   },
-
       }
     };
 
