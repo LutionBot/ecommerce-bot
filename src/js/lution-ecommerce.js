@@ -137,8 +137,13 @@
 
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-            lution.insertBotMessage(lution.answerPrettifier(this.responseText, searchType));
+            console.log(searchType, this.responseText);
+            var map = {
+              product: 'products',
+              category: 'categories'
+            };
+
+            lution.insertBotMessage(lution.companyData.startConfig[map[searchType]].searchMsg + " ", lution.answerPrettifier(this.responseText));
           }
         };
         xhttp.open("POST", "https://www.lutionbot.com/api/text", true);
@@ -159,31 +164,23 @@
       }
     };
 
-    lution.answerPrettifier = function(data, type) {
-      var map = {
-        "product" : "products",
-        "category" : "categories"
+    lution.answerPrettifier = function(data) {
+      var obj = {
+        a: {
+          msg: '',
+          href: ''
+        }
       };
-
-      var msg = "";
-      if (lution.companyData.startConfig[map[type]]) {
-        msg = lution.companyData.startConfig[map[type]].searchMsg + " ";
-      }
 
       try {
         data = JSON.parse(data);
+        obj.a.msg = data[0].reference;
+        obj.a.href = data[0].reference;
+        return obj;
       } catch (e) {
         data = data;
+        return data;
       }
-
-      if (typeof data == "string") {
-        msg +=  data;
-      } else if (Object.prototype.toString.call( data ) === '[object Array]' ) {
-        msg += "<a href='" + data[0].reference + "'>" + data[0].reference + "</a>";
-      } else {
-        msg += "<a href='" + data.reference + "'>" + data.reference + "</a>";
-      }
-      return msg;
     };
 
     lution.initSearchFlow = function(value) {
@@ -228,14 +225,22 @@
     };
 
 
-    lution.insertBotMessage = function(msg) {
-      lution.createDiv(false, document.getElementsByClassName('chat-box')[0], {className: "chat-line bot-line", span: {msg: msg}});
-      //TODO: $('.chat-box').scrollTop($('.chat-box')[0].scrollHeight);
+    lution.insertBotMessage = function(msg, elem) {
+      var options = {className: "chat-line bot-line", span: {msg: msg}};
+      if (elem) {
+        for (var i = 0; i < Object.keys(elem).length; i++) {
+          options[Object.keys(elem)[i]] = elem[Object.keys(elem)[i]]
+        }
+      }
+
+      lution.createDiv(false, document.getElementsByClassName('chat-box')[0], options);
+      document.getElementsByClassName('chat-box')[0].scrollTop = document.getElementsByClassName('chat-box')[0].scrollHeight;
+
     };
 
     lution.insertUserMessage = function(msg) {
       lution.createDiv(false, document.getElementsByClassName('chat-box')[0], {className: "chat-line user-line", span: {msg: msg}});
-      //TODO: $('.chat-box').scrollTop($('.chat-box')[0].scrollHeight);
+      document.getElementsByClassName('chat-box')[0].scrollTop = document.getElementsByClassName('chat-box')[0].scrollHeight;
     };
 
     lution.createDiv = function(innerText, parent, options) {
@@ -266,6 +271,14 @@
 
         spanContainer.appendChild(spanNode);
         container.appendChild(spanContainer);
+      }
+
+      if (options.a && options.a.msg && options.a.href) {
+        var createA = document.createElement("a");
+        var createAText = document.createTextNode(options.a.msg);
+        createA.setAttribute('href', options.a.href);
+        createA.appendChild(createAText);
+        container.appendChild(createA);
       }
 
       parent.appendChild(container);
