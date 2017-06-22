@@ -138,13 +138,13 @@
             var parsed = JSON.parse(this.responseText);
 
             if (parsed.constructor !== Array) {
-              console.log(22, parsed);
               if (parsed.type == 'common' && parsed.word) {
                 return lution.insertBotMessage(parsed.word);
               }
+              if (parsed.type == 'search' && parsed.word) {
+                return lution.insertBotMessage(lution.companyData.startConfig[map[searchType]].searchMsg + " ", lution.answerPrettifier(parsed));
+              }
             }
-
-            console.log(123);
 
             lution.insertBotMessage(lution.companyData.startConfig[map[searchType]].searchMsg + " ", lution.answerPrettifier(this.responseText));
             document.getElementById("chat-input").onkeypress = function(e) {
@@ -174,9 +174,16 @@
         obj.a.href = data[0].reference;
         return obj;
       } catch (e) {
-        data = data;
+        if (data.constructor !== Array && data.href) {
+          obj.a.msg = data.href;
+          obj.a.href = data.href;
+          return obj;
+        }
+
         return data;
       }
+
+
     };
 
     lution.initSearchFlow = function(value) {
@@ -299,7 +306,7 @@
       parent.appendChild(container);
     };
 
-    lution.createDiv(false, lution.container, {className: 'chat-title', clickFunction: lution.initBot, span: {msg: 'LutionBot'}});
+    lution.createDiv(false, lution.container, {className: 'chat-title', clickFunction: lution.initBot, span: {msg: 'Iniciar Chat'}});
     lution.createDiv(false, lution.container, {className: 'chat-window dont-show'});
     lution.createDiv(false, document.getElementsByClassName('chat-title')[0], {className: 'lution-spinner dont-show'});
     lution.createDiv(false, document.getElementsByClassName('chat-window')[0], {className: 'chat-box'});
