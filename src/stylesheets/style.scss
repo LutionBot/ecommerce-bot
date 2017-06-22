@@ -9,7 +9,7 @@
   width: 400px;
   background-color: #FFF;
   position: fixed;
-  right: 0px;
+  right: 20px;
   bottom: 0px;
 
   .chat-title {
@@ -30,7 +30,7 @@
   .chat-window {
     height: 300px;
     position: relative;
-
+    overflow: hidden;
     .chat-box {
       position: absolute;
       bottom: 50px;
