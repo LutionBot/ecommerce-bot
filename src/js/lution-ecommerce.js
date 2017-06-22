@@ -62,6 +62,8 @@
     };
 
     lution.initBot = function(e) {
+      document.getElementsByClassName('lution-spinner')[0].classList.remove('dont-show');
+
       e = e || window.event;
       var target = e.target || e.srcElement;
       target.removeEventListener('click', lution.initBot, false);
@@ -69,12 +71,13 @@
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-         var data = JSON.parse(this.responseText);
-          document.getElementById('chat-input').onkeypress = function(e) {
-            if (e.which == 13) {
-              lution.chooseSearchType();
-            }
-          };
+          document.getElementsByClassName('lution-spinner')[0].classList.add('dont-show');
+          var data = JSON.parse(this.responseText);
+            document.getElementById('chat-input').onkeypress = function(e) {
+              if (e.which == 13) {
+                lution.chooseSearchType();
+              }
+            };
 
           lution.openChat();
           lution.companyData = data;
@@ -131,6 +134,17 @@
               category: 'categories',
               fb: 'fb'
             };
+
+            var parsed = JSON.parse(this.responseText);
+
+            if (parsed.constructor !== Array) {
+              console.log(22, parsed);
+              if (parsed.type == 'common' && parsed.word) {
+                return lution.insertBotMessage(parsed.word);
+              }
+            }
+
+            console.log(123);
 
             lution.insertBotMessage(lution.companyData.startConfig[map[searchType]].searchMsg + " ", lution.answerPrettifier(this.responseText));
             document.getElementById("chat-input").onkeypress = function(e) {
@@ -259,6 +273,7 @@
         var createA = document.createElement("a");
         var createAText = document.createTextNode(options.a.msg);
         createA.setAttribute('href', options.a.href);
+        createA.setAttribute('target', "_blank");
         createA.appendChild(createAText);
         container.appendChild(createA);
       }
@@ -278,15 +293,19 @@
         container.setAttribute("id", options.id);
       }
 
+      if (options.placeholder) {
+        container.setAttribute("placeholder", options.placeholder);
+      }
       parent.appendChild(container);
     };
 
-    lution.createDiv('Hola amigos', lution.container, {className: 'chat-title', clickFunction: lution.initBot});
+    lution.createDiv(false, lution.container, {className: 'chat-title', clickFunction: lution.initBot, span: {msg: 'LutionBot'}});
     lution.createDiv(false, lution.container, {className: 'chat-window dont-show'});
+    lution.createDiv(false, document.getElementsByClassName('chat-title')[0], {className: 'lution-spinner dont-show'});
     lution.createDiv(false, document.getElementsByClassName('chat-window')[0], {className: 'chat-box'});
     lution.createDiv(false, document.getElementsByClassName('chat-window')[0], {className: 'chat-clearBoth'});
     lution.createDiv(false, document.getElementsByClassName('chat-window')[0], {className: 'chat-input-box'});
-    lution.createInput('text', document.getElementsByClassName('chat-input-box')[0], {className: 'chat-input', id: 'chat-input'});
+    lution.createInput('text', document.getElementsByClassName('chat-input-box')[0], {className: 'chat-input', id: 'chat-input', placeholder: 'Escribe un mensaje'});
 
     // lution.container = lution.addClass(lution.container, 'prueba');
     if (lution.params.roundedBorders == false) {
@@ -305,4 +324,4 @@
   window.Lution = Lution;
 })();
 
-var lution = new Lution('.chat-container', {theme: 'dark', roundedBorders: true});
+var lution = new Lution('.chat-container', {theme: 'light', roundedBorders: false});
