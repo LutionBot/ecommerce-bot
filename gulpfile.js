@@ -32,7 +32,8 @@ gulp.task('bundleJs', ['delete'], function () {
 });
 
 gulp.task('sass', function () {
-  var css = ['./src/stylesheets/style.scss'];
+  var css = ['./src/stylesheets/style.scss',
+  './src/stylesheets/spinner.scss'];
   return gulp.src(css)
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(concat('style.css'))
