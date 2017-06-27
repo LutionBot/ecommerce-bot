@@ -47,6 +47,11 @@
       }
     }
 
+    /**
+     * @name addClass
+     * @description add class to element
+     * @param element, className
+     */
     lution.addClass = function(element, className) {
       if (lution.hasJquery) {
         element.addClass(className);
@@ -61,6 +66,10 @@
       return container;
     };
 
+    /**
+     * @name initBot
+     * @description Show greeting message and start bot.
+     */
     lution.initBot = function(e) {
       document.getElementsByClassName('lution-spinner')[0].classList.remove('dont-show');
 
@@ -89,6 +98,9 @@
 
     };
 
+    /**
+     * @name chooseSearchType
+     */
     lution.chooseSearchType = function() {
       var val = document.getElementsByClassName('chat-input')[0].value;
       lution.clearInput();
@@ -106,6 +118,11 @@
       }
     };
 
+    /**
+     * @name search
+     * @description search flow. API Call and insert bot message
+     * @param searchType, searchTerm
+     */
     lution.search = function(searchType, searchTerm) {
       var val;
       if (searchTerm) {
@@ -160,6 +177,11 @@
       }
     };
 
+    /**
+     * @name answerPrettifier
+     * @description create links from answer
+     * @param data
+     */
     lution.answerPrettifier = function(data) {
       var obj = {
         a: {
@@ -182,10 +204,13 @@
 
         return data;
       }
-
-
     };
 
+    /**
+     * @name initSearchFlow
+     * @description start search flow. Get start config and default messages
+     * @param value
+     */
     lution.initSearchFlow = function(value) {
       if (value.toLowerCase().indexOf("producto") != -1) {
         lution.startConfig = lution.companyData.startConfig.products;
@@ -206,10 +231,18 @@
       };
     };
 
+    /**
+     * @name clearInput
+     * @description clears text input message
+     */
     lution.clearInput = function() {
       document.getElementsByClassName('chat-input')[0].value = "";
     };
 
+    /**
+     * @name openChat
+     * @description maximize chat windows
+     */
     lution.openChat = function(e) {
       document.getElementsByClassName('chat-window')[0].classList.remove('dont-show');
       e = e || window.event;
@@ -219,6 +252,10 @@
       document.getElementsByClassName('chat-title')[0].innerHTML = "LutionBot";
     };
 
+    /**
+     * @name closeChat
+     * @description minimize chat windows
+     */
     lution.closeChat = function(e) {
       document.getElementsByClassName('chat-window')[0].classList.add('dont-show');
       e = e || window.event;
@@ -228,6 +265,11 @@
     };
 
 
+    /**
+     * @name insertBotMessage
+     * @description insert message as bot to the chat
+     * @param msg
+     */
     lution.insertBotMessage = function(msg, elem) {
       var options = {className: "chat-line bot-line", span: {msg: msg}};
       if (elem) {
@@ -241,11 +283,30 @@
 
     };
 
+    /**
+     * @name insertUserMessage
+     * @description insert message as user to the chat
+     * @param msg
+     */
     lution.insertUserMessage = function(msg) {
       lution.createDiv(false, document.getElementsByClassName('chat-box')[0], {className: "chat-line user-line", span: {msg: msg}});
       document.getElementsByClassName('chat-box')[0].scrollTop = document.getElementsByClassName('chat-box')[0].scrollHeight;
     };
 
+    /**
+     * @name createList
+     * @description create list component and add it to DOM.
+     * @param data
+     */
+    lution.createList = function(data) {
+
+    };
+
+    /**
+     * @name createDiv
+     * @description create div element and add it to DOM.
+     * @param innerText, parent, options
+     */
     lution.createDiv = function(innerText, parent, options) {
       var container = document.createElement("div");
 
@@ -288,6 +349,11 @@
       parent.appendChild(container);
     };
 
+    /**
+     * @name createDiv
+     * @description create input element and add it to DOM.
+     * @param type, parent, options
+     */
     lution.createInput = function(type, parent, options) {
       var container = document.createElement("INPUT");
       container.setAttribute("type", type);
