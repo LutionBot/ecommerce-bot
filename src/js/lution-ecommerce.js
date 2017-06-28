@@ -163,7 +163,8 @@
               }
             }
 
-            lution.insertBotMessage(lution.companyData.startConfig[map[searchType]].searchMsg + " ", lution.answerPrettifier(this.responseText));
+            lution.createList(this.responseText);
+            // lution.insertBotMessage(lution.companyData.startConfig[map[searchType]].searchMsg + " ", lution.answerPrettifier(this.responseText));
             document.getElementById("chat-input").onkeypress = function(e) {
               if (e.which == 13) {
                 lution.chooseSearchType();
@@ -299,6 +300,15 @@
      * @param data
      */
     lution.createList = function(data) {
+      data = JSON.parse(data);
+      lution.createDiv('', document.getElementsByClassName('chat-box')[0], {className: "chat-line user-line lution-list-container"});
+      var listContainer = document.getElementsByClassName('lution-list-container');
+      for (var i = 0; i < data.length; i++) {
+        lution.createDiv('', listContainer[listContainer.length - 1], {className: "chat-line user-line lution-product-container"});
+        var productContainer = document.getElementsByClassName('lution-product-container');
+        lution.createImage(data[i].image, productContainer[productContainer.length - 1], 'lution-product-image');
+        lution.createSpan(data[i].name, productContainer[productContainer.length - 1], 'lution-product-span');
+      }
 
     };
 
@@ -350,6 +360,43 @@
     };
 
     /**
+     * @name createSpan
+     * @description create span element and add it to DOM.
+     * @param innerText, parent
+     */
+    lution.createSpan = function(innerText, parent, className) {
+      var spanContainer = document.createElement("span"),
+        spanNode = document.createTextNode(innerText);
+
+      if (className) {
+        spanContainer.className = className
+      }
+
+      spanContainer.appendChild(spanNode);
+      parent.appendChild(spanContainer);
+    };
+
+
+    /**
+     * @name createImg
+     * @description create span element and add it to DOM.
+     * @param innerText, parent
+     */
+    lution.createImage = function(src, parent, className) {
+      if (!src) {
+        src = 'default.jpg';
+      }
+      var imgElem = document.createElement("IMG");
+      imgElem.setAttribute('src', src);
+
+      if (className) {
+        imgElem.className = className
+      }
+
+      parent.appendChild(imgElem);
+    };
+
+    /**
      * @name createDiv
      * @description create input element and add it to DOM.
      * @param type, parent, options
@@ -380,7 +427,6 @@
     lution.createDiv(false, document.getElementsByClassName('chat-window')[0], {className: 'chat-input-box'});
     lution.createInput('text', document.getElementsByClassName('chat-input-box')[0], {className: 'chat-input', id: 'chat-input', placeholder: 'Escribe un mensaje'});
 
-    // lution.container = lution.addClass(lution.container, 'prueba');
     if (lution.params.roundedBorders == false) {
       document.getElementsByClassName('chat-container')[0] = lution.addClass(document.getElementsByClassName('chat-container')[0], 'straightBorder');
     }
