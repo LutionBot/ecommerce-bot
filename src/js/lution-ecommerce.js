@@ -312,7 +312,8 @@
         lution.createImage(data[i].image, productContainer[productContainer.length - 1], 'lution-product-image');
         lution.createSpan(data[i].name, productContainer[productContainer.length - 1], 'lution-product-span');
       }
-
+      
+      document.getElementsByClassName('chat-box')[0].scrollTop = document.getElementsByClassName('chat-box')[0].scrollHeight;
     };
 
     /**
