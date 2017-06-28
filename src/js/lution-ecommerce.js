@@ -163,8 +163,11 @@
               }
             }
 
-            lution.createList(this.responseText);
-            // lution.insertBotMessage(lution.companyData.startConfig[map[searchType]].searchMsg + " ", lution.answerPrettifier(this.responseText));
+            if (parsed.length > 1) {
+              return lution.createList(this.responseText);
+            }
+
+            lution.insertBotMessage(lution.companyData.startConfig[map[searchType]].searchMsg + " ", lution.answerPrettifier(this.responseText));
             document.getElementById("chat-input").onkeypress = function(e) {
               if (e.which == 13) {
                 lution.chooseSearchType();
