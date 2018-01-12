@@ -1,5 +1,4 @@
 (function () {
-  'use strict';
 
   var Lution = function (container, params) {
     if (!(this instanceof Lution)) return new Lution(container, params);
@@ -93,7 +92,7 @@
           lution.insertBotMessage(lution.companyData.greetingMsg);
         }
       };
-      xhttp.open("GET", "https://www.lutionbot.com/api/company/tan%20intensa?startChat=true", true);
+      xhttp.open("GET", "http://localhost:3000/api/company/tan%20intensa?startChat=true", true);
       xhttp.send();
 
     };
@@ -175,7 +174,7 @@
             };
           }
         };
-        xhttp.open("POST", "https://www.lutionbot.com/api/text", true);
+        xhttp.open("POST", "http://localhost:3000/api/text", true);
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhttp.send(postData);
       }
@@ -312,7 +311,7 @@
         lution.createImage(data[i].image, productContainer[productContainer.length - 1], 'lution-product-image');
         lution.createSpan(data[i].name, productContainer[productContainer.length - 1], 'lution-product-span');
       }
-      
+
       document.getElementsByClassName('chat-box')[0].scrollTop = document.getElementsByClassName('chat-box')[0].scrollHeight;
     };
 

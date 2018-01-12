@@ -1,5 +1,3 @@
-'use strict';
-
 function initBot() {
   $(".chat-title").removeAttr("onclick");
 

@@ -1,5 +1,3 @@
-'use strict';
-
 var self = {};
 
 self.company = {};
